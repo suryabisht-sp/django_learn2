@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+ </head>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: orange;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  {% comment %} <a class="{% if request.path == '/ch/' %} active {% endif %}" href="{% url 'landing' %}">Landing</a>
+  <a class="{% if request.path == '/home/' %} active {% endif %}" href="{% url 'home' %}">Home</a>
+  <a  href="#contact">Contact</a>
+  <a class="{% if request.path == '/about' %} active {% endif %}" href="/about">About</a> {% endcomment %}
+  {% url "landing" as url %}
+    <a class="{% if request.path == url %} active {% endif %}" href="{{url}}">Landing</a>
+    {% url "home" as url %}
+  <a class="{% if request.path == url %} active {% endif %}" href="{{url}}">Home</a>
+  <a class="{% if request.path == '/form' %} active {% endif %}" href="/form">Contact</a>
+  <a  href="/about">About</a>
+</div>
+
+</body>
+</html>

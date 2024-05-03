@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #productList1 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: linear-gradient(to top right,
+          red 10%,
+          /* Start color at 0% */
+          yellow 80%);
+      /* Clip the background to the text */
+      -webkit-background-clip: text;
+      background-clip: text;
+      /* Set the text fill color to transparent */
+      color: transparent;
+    }
+
+    #productList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 5px;
+      background: linear-gradient(to top right,
+          red 10%,
+          /* Start color at 0% */
+          yellow 80%);
+      /* Clip the background to the text */
+      -webkit-background-clip: text;
+      background-clip: text;
+      /* Set the text fill color to transparent */
+      color: transparent;
+    }
+
+    .product {
+      background-color: #f9f9f9;
+      border: 0.5px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0px 0px 4px #ddd;
+      margin-bottom: 10px;
+      width: 250px;
+      overflow: hidden;
+      margin: 10px;
+    }
+
+    .product:hover {
+      box-shadow: 0px 1px 15px #848383;
+      cursor: pointer;
+      transform: scale(105%);
+      transition-duration: 50ms;
+      transition: ease-in-out;
+    }
+
+    .product h3 {
+      color: rgb(23, 37, 125);
+      padding-left: 10px;
+    }
+
+    .product p {
+      color: red;
+      padding-left: 10px;
+    }
+
+    .image {
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+    }
+
+    .prodDescription {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .prodDescription1 {
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      margin-top: -5px;
+    }
+
+    .btn {
+      margin-left: 10px;
+      border: none;
+      background: transparent;
+      color: black;
+      border: 0.5px solid #ddd;
+      padding: 5px;
+      border-radius: 5px
+    }
+
+    H1 {
+      margin-left: 10px;
+      color: green
+    }
+
+    .btn:hover {
+      background: green;
+      cursor: pointer;
+      transform: scale(105%);
+      transition-duration: 50ms;
+      transition: ease-in-out;
+      color: #fff
+    }
+  </style>
+</head>
+
+<body>
+  {% extends "base.html" %}
+  <div class="container">
+    {% comment %} {{data}} {% endcomment %}
+    {% comment %} {% include "header.html" %} {% endcomment %}
+  {% block check %}
+    <h1>Welcome to Dj Template</h1>
+    <div id="productList1" class="container">
+      <p id="pro">Click Primary Button...</p>
+    </div>
+    <button onclick="getProducts()" type="button" class="btn btn-primary">Primary Button</button>
+    <button onclick="remove()" type="button" class="btn btn-secondary">Secondary Button</button>
+    <div id="productList" class="container">
+    </div>
+   
+    {% comment %} {% include "footer.html" %} {% endcomment %}
+</body>
+<script>
+  async function getProducts() {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/getName/');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();ducts.forEach(product => {
+      const productDiv = document.createElement('div');
+      productDiv.classList.add('product');
+      productDiv.innerHTML = `
+       <div class="image"> <img src="${product.thumbnail}" alt="${product.title}" style="max-width: 100%"> </div>
+        <h3>${product.title}</h3>
+        <div class="prodDescription">
+         <span class="prodDescription1" style="color:black">Price:<p> $${product.price}</p> </span>
+        <span class="prodDescription1" style="color:black">Rating: <p>${product.rating}</p></span>
+        </div>
+      `;
+      productList.appendChild(productDiv);
+    });
+  }
+      renderProducts(data.products);
+    } catch (error) {
+      // Handle error
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  }
+
+  function remove() {
+    const productList = document.getElementById('productList');
+    productList.innerHTML = '';
+    const check = document.getElementById('pro')
+    check.innerHTML = "Click Primary Button..."
+  }
+
+  function renderProducts(products) {
+    const productList = document.getElementById('productList');
+    productList.innerHTML = '';
+    const check = document.getElementById('pro') // Clear previous content
+    check.innerHTML = "Click secondary button to remove the products"
+    products.forEach(product => {
+      const productDiv = document.createElement('div');
+      productDiv.classList.add('product');
+      productDiv.innerHTML = `
+       <div class="image"> <img src="${product.thumbnail}" alt="${product.title}" style="max-width: 100%"> </div>
+        <h3>${product.title}</h3>
+        <div class="prodDescription">
+         <span class="prodDescription1" style="color:black">Price:<p> $${product.price}</p> </span>
+        <span class="prodDescription1" style="color:black">Rating: <p>${product.rating}</p></span>
+        </div>
+      `;
+      productList.appendChild(productDiv);
+    });
+  }
+</script>
+ {% endblock %}
+
+</html>
